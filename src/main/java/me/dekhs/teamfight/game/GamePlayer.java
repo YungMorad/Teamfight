@@ -12,10 +12,10 @@ import java.util.UUID;
     public UUID uuid;
     public int kills;
     public int deaths;
-    public Team playerTeam;
+    public TeamWhite playerTeam;
     public int hits;
 
-    public GamePlayer(Player player, Team playerTeam) {
+    public GamePlayer(Player player, TeamWhite playerTeam) {
         this.player = player;
         this.uuid = player.getUniqueId();
         this.kills = 0;

@@ -1,7 +1,6 @@
 package me.dekhs.teamfight.game.managers;
 
 import me.dekhs.teamfight.game.GamePlayer;
-import me.dekhs.teamfight.game.Team;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
