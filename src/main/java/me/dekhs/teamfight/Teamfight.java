@@ -1,5 +1,6 @@
 package me.dekhs.teamfight;
 
+import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import me.dekhs.teamfight.game.TeamBlack;
 import me.dekhs.teamfight.game.TeamWhite;
@@ -32,6 +33,8 @@ public class Teamfight extends JavaPlugin {
     TeamBlack teamBlack;
     @Getter
     FileConfiguration config = this.getConfig();
+    @Getter
+    SpiGUI spiGUI;
 
     @Override
     public void onEnable() {
@@ -46,6 +49,7 @@ public class Teamfight extends JavaPlugin {
     public void onLoad() {
         INSTANCE = this;
         saveDefaultConfig();
+        spiGUI = new SpiGUI(this);
     }
 
     @Override

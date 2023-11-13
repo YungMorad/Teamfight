@@ -4,6 +4,7 @@ import me.dekhs.teamfight.Teamfight;
 import me.dekhs.teamfight.game.managers.TeamManager;
 import me.dekhs.teamfight.game.state.GameState;
 import me.dekhs.teamfight.game.tasks.GameTasks;
+import me.dekhs.teamfight.gui.LobbyGui;
 import me.dekhs.teamfight.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -90,15 +91,12 @@ public class LobbyListeners implements Listener {
             return;
         }
         if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
-            if (is.getItemMeta().getDisplayName().contains("blanche") && is.getType() == Material.WOOL) {
-                teamManager.setWhitePlayers(player);
-                player.sendMessage("Tu as rejoint l'équipe blanche");
-                //TODO faire a terme une gui pour rejoindre une equipe avec un lore qui supdate en fonction de la liste des teams come sur funcraft
+            if (is.getItemMeta().getDisplayName().contains("Rejoindre une équipe") && is.getType() == Material.COMPASS) {
+                LobbyGui.openChooseTeamGui(player);
             }
-            if (is.getItemMeta().getDisplayName().contains("noir") && is.getType() == Material.WOOL) {
-                teamManager.setBlackPlayers(player);
-                player.sendMessage("Tu as rejoint l'équipe noir");
-                //TODO faire a terme une gui pour rejoindre une equipe avec un lore qui supdate en fonction de la liste des teams come sur funcraft
+            if (is.getItemMeta().getDisplayName().contains("Rejoindre aucune équipe") && is.getType() == Material.WOOL) {
+                teamManager.setNothingTeam(player);
+                player.sendMessage("Tu as rejoint aucune équipe");
             }
         }
     }

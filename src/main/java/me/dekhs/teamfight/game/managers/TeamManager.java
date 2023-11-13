@@ -6,7 +6,9 @@ import me.dekhs.teamfight.game.TeamBlack;
 import me.dekhs.teamfight.game.TeamWhite;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TeamManager {
 
@@ -17,6 +19,8 @@ public class TeamManager {
     public TeamBlack teamBlacks = Teamfight.getINSTANCE().getTeamBlack();
 
 
+
+
     public TeamWhite getWhiteTeamPlayer(Player player) {
         return whitePlayers.get(player);
 
@@ -25,6 +29,17 @@ public class TeamManager {
     public TeamBlack getBlackTeamPlayer(Player player) {
         return blackPlayers.get(player);
 
+    }
+
+    public void setNothingTeam (Player player) {
+        if(isWhiteTeam(player)) {
+            whitePlayers.remove(player, teamWhite);
+            teamWhite.getPlayers().remove(player);
+        }
+        if(isBlackTeam(player)) {
+            blackPlayers.remove(player, teamBlacks);
+            teamBlacks.getPlayers().remove(player);
+        }
     }
 
     public boolean isWhiteTeam (Player player) {

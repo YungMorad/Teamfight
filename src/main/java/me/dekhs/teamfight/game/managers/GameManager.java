@@ -12,14 +12,14 @@ import java.util.List;
 public class GameManager {
 
     public void giveItemsLobby(Player player) {
-        ItemStack whiteTeam = new ItemBuilder(Material.WOOD, 1).setName("Rejoindre l'équipe blanche").toItemStack();
-        ItemStack blackTeam = new ItemBuilder(Material.WOOD, 1, (byte) 15).setName("Rejoindre l'équipe noire").toItemStack();
-        ItemStack lobbyItem = new ItemBuilder(Material.COMPASS, 1).setName("Retourner au lobby").toItemStack();
+        ItemStack chooseTeam = new ItemBuilder(Material.COMPASS, 1).setName("Rejoindre une équipe").toItemStack();
+        ItemStack randomTeam = new ItemBuilder(Material.WOOL, 1).setName("Rejoindre aucune équipe").toItemStack();
+        ItemStack lobbyItem = new ItemBuilder(Material.WOOD_DOOR, 1).setName("Retourner au lobby").toItemStack();
 
         player.getInventory().clear();
         player.updateInventory();
-        player.getInventory().setItem(0, whiteTeam);
-        player.getInventory().setItem(1, blackTeam);
+        player.getInventory().setItem(0, chooseTeam);
+        player.getInventory().setItem(3, randomTeam);
         player.getInventory().setItem(8, lobbyItem);
     }
 
