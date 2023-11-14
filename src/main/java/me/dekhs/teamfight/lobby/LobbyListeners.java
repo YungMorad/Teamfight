@@ -1,6 +1,8 @@
 package me.dekhs.teamfight.lobby;
 
 import me.dekhs.teamfight.Teamfight;
+import me.dekhs.teamfight.game.GamePlayer;
+import me.dekhs.teamfight.game.managers.GamePlayerManager;
 import me.dekhs.teamfight.game.managers.TeamManager;
 import me.dekhs.teamfight.game.state.GameState;
 import me.dekhs.teamfight.game.tasks.GameTasks;
@@ -10,10 +12,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class LobbyListeners implements Listener {
@@ -22,12 +26,18 @@ public class LobbyListeners implements Listener {
     private GameState state = Teamfight.getINSTANCE().getGameState();
     private TeamManager teamManager = Teamfight.getINSTANCE().getTeamManager();
 
+    private GamePlayerManager gamePlayerManager = Teamfight.INSTANCE.getGamePlayerManager();
+
+    private GameTasks gameTasks;
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if(state == GameState.PLAYING || state == GameState.FINISHING) {
             event.setJoinMessage(null);
             PlayerUtils.resetPlayer(player);
             player.setGameMode(GameMode.SPECTATOR);
+            // todo le tp aux locs de la game
             // La partie est déja en cours, le mettre donc en spec
             return;
         }
@@ -74,15 +84,32 @@ public class LobbyListeners implements Listener {
                 size = 5;
         }
         event.setJoinMessage("Le joueur : " + player.getDisplayName() + " a rejoin la partie ! [" + Bukkit.getOnlinePlayers().size() + "/" + size);
+        gamePlayerManager.createGamePlayer(player);
         Teamfight.getINSTANCE().getGameManager().giveItemsLobby(player);
         if(Bukkit.getOnlinePlayers().size() == size) {
             state = GameState.STARTING;
+            gameTasks = new GameTasks();
             Bukkit.getScheduler().runTaskTimer(Teamfight.getINSTANCE(), new GameTasks(), 0, 20);
-            //TODO enclencher début de la partie avec cooldown etc ...
         }
 
     }
 
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if(state == GameState.WAITING) {
+            if (gameTasks != null && !gameTasks.isCancelled()) {
+                gameTasks.cancel();
+            }
+        }
+        if(player != null) {
+            if(gamePlayerManager.isGamePlayer(player)) {
+                gamePlayerManager.deletegamePlayer(player);
+            }
+        }
+    }
+
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack is = event.getItem();

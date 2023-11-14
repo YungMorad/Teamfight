@@ -18,6 +18,8 @@ public class TeamManager {
     public TeamWhite teamWhite = Teamfight.getINSTANCE().getTeamWhite();
     public TeamBlack teamBlacks = Teamfight.getINSTANCE().getTeamBlack();
 
+    public GamePlayerManager gamePlayerManager = Teamfight.getINSTANCE().getGamePlayerManager();
+
 
 
 
@@ -29,6 +31,13 @@ public class TeamManager {
     public TeamBlack getBlackTeamPlayer(Player player) {
         return blackPlayers.get(player);
 
+    }
+
+    public void resetPlayer(Player player) {
+        setNothingTeam(player);
+        if(gamePlayerManager.isGamePlayer(player)) {
+            gamePlayerManager.deletegamePlayer(player);
+        }
     }
 
     public void setNothingTeam (Player player) {
@@ -56,6 +65,7 @@ public class TeamManager {
         }
         whitePlayers.put(player, teamWhite);
         teamWhite.getPlayers().add(player);
+        gamePlayerManager.getGamePlayer(player).setTeamWhite(teamWhite);
     }
 
     public void setBlackPlayers (Player player) {
@@ -64,6 +74,7 @@ public class TeamManager {
         }
         blackPlayers.put(player, teamBlacks);
         teamWhite.getPlayers().add(player);
+        gamePlayerManager.getGamePlayer(player).setTeamBlack(teamBlacks);
     }
 
 

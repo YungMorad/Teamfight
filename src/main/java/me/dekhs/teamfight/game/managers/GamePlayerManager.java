@@ -17,4 +17,17 @@ public class GamePlayerManager {
     public boolean isGamePlayer (Player player) {
         return gamePlayers.containsKey(player);
     }
+
+    public void deletegamePlayer(Player player) {
+        if(isGamePlayer(player)) {
+            gamePlayers.remove(player, gamePlayers.get(player));
+        }
+    }
+
+    public void createGamePlayer (Player player) {
+        if(!isGamePlayer(player)) {
+            GamePlayer gamePlayer = new GamePlayer(player);
+            gamePlayers.put(player, gamePlayer);
+        }
+    }
 }

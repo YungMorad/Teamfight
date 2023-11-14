@@ -12,6 +12,13 @@ public class GameTasks extends BukkitRunnable{
     public GameState state = main.getGameState();
     private int timer = 30;
 
+    private boolean isCancelled = false;
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+
 
     @Override
     public void run() {
@@ -27,10 +34,6 @@ public class GameTasks extends BukkitRunnable{
                 break;
             case 5:
                 Bukkit.broadcastMessage("Début de la partie dans 5 secondes !");
-                for(Player pls : Bukkit.getOnlinePlayers()) {
-                    pls.getInventory().clear();
-                    pls.updateInventory();
-                }
                 break;
             case 4:
                 Bukkit.broadcastMessage("Début de la partie dans 4 secondes !");
@@ -52,6 +55,7 @@ public class GameTasks extends BukkitRunnable{
             Bukkit.broadcastMessage("La partie a commencé !");
             state = GameState.PLAYING;
 
+            isCancelled = true;
             cancel();
         }
 

@@ -9,6 +9,7 @@ import me.dekhs.teamfight.game.managers.GamePlayerManager;
 import me.dekhs.teamfight.game.managers.TeamManager;
 import me.dekhs.teamfight.game.state.GameState;
 import me.dekhs.teamfight.lobby.LobbyListeners;
+import me.dekhs.teamfight.utils.CheckUtilsListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,9 +39,6 @@ public class Teamfight extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        gameState = GameState.WAITING;
-        teamWhite = new TeamWhite(null);
-        teamBlack = new TeamBlack(null);
         loadManagers();
         registerListeners();
     }
@@ -60,11 +58,16 @@ public class Teamfight extends JavaPlugin {
     public void registerListeners() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new LobbyListeners(), this);
+        pm.registerEvents(new CheckUtilsListener(), this);
     }
 
     public void loadManagers() {
+        gameState = GameState.WAITING;
         gamePlayerManager = new GamePlayerManager();
         gameManager = new GameManager();
+        teamWhite = new TeamWhite(null);
+        teamBlack = new TeamBlack(null);
         teamManager = new TeamManager();
+
     }
 }

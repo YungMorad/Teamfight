@@ -12,15 +12,17 @@ import java.util.UUID;
     public UUID uuid;
     public int kills;
     public int deaths;
-    public TeamWhite playerTeam;
+    public TeamWhite teamWhite;
+    public TeamBlack teamBlack;
     public int hits;
 
-    public GamePlayer(Player player, TeamWhite playerTeam) {
+    public GamePlayer(Player player) {
         this.player = player;
         this.uuid = player.getUniqueId();
         this.kills = 0;
         this.deaths = 0;
-        this.playerTeam = playerTeam;
+        this.teamWhite = null;
+        this.teamBlack = null;
         this.hits = 0;
     }
 }
