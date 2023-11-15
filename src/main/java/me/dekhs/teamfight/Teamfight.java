@@ -47,6 +47,8 @@ public class Teamfight extends JavaPlugin {
     public void onLoad() {
         INSTANCE = this;
         saveDefaultConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
         spiGUI = new SpiGUI(this);
     }
 

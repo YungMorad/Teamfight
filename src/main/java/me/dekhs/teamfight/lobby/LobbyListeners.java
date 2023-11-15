@@ -87,6 +87,7 @@ public class LobbyListeners implements Listener {
         gamePlayerManager.createGamePlayer(player);
         Teamfight.getINSTANCE().getGameManager().giveItemsLobby(player);
         if(Bukkit.getOnlinePlayers().size() == size) {
+            //Début de la partie
             state = GameState.STARTING;
             gameTasks = new GameTasks();
             Bukkit.getScheduler().runTaskTimer(Teamfight.getINSTANCE(), new GameTasks(), 0, 20);
@@ -97,7 +98,7 @@ public class LobbyListeners implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if(state == GameState.WAITING) {
+        if(state == GameState.STARTING) {
             if (gameTasks != null && !gameTasks.isCancelled()) {
                 gameTasks.cancel();
             }
